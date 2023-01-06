@@ -1,5 +1,3 @@
-
-
 const mysql = require('mysql2/promise');
 
 const getDB = async () => {
@@ -13,7 +11,7 @@ const getDB = async () => {
                 connectionLimit: 10,
                 host: 'localhost',
                 user: 'root',
-                password: 'root',
+                password: 'DAniel10',
                 database: 'go_fitness',
                 timezone: 'Z',
             });

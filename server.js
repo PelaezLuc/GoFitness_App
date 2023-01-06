@@ -1,9 +1,25 @@
 const express = require('express');
 const listUser = require('./listUser');
-const testInitDB = require('./db/testInitDB');
+//const testInitDB = require('./db/testInitDB');
 
 // Creamos el servidor
 const app = express();
+
+/* 
+###################
+### Middlewares ###
+###################
+*/
+
+//const isAuth = require('./middleware/isAuth');
+
+/* 
+########################
+### Control Usuarios ###
+########################
+*/
+
+//const registerUser = require('./control/users/registerUser');
 
 /* 
 ##########################
@@ -11,10 +27,8 @@ const app = express();
 ##########################
 */
 
-
-app.get('/testInitDB', testInitDB);
+//app.get('/testInitDB', listUser);
 app.get('/listUser', listUser);
-
 
 /* 
     ########################################
