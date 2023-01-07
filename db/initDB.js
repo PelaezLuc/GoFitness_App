@@ -24,7 +24,7 @@ async function main() {
                 id int not null primary key auto_increment,
                 name varchar(50) not null,
                 email varchar(100) not null,
-                password varchar(20) not null,
+                password varchar(255) not null,
                 role bool default(0) not null 
             )`
         );

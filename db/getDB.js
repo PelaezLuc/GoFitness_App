@@ -1,4 +1,8 @@
 const mysql = require('mysql2/promise');
+require('dotenv').config();
+
+//recogemos variables del archivo .env
+const { MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE } = process.env;
 
 const getDB = async () => {
     // Declaramos un pool de conexiones
@@ -9,10 +13,10 @@ const getDB = async () => {
             // Creamos un grupo de conexiones
             pool = mysql.createPool({
                 connectionLimit: 10,
-                host: 'localhost',
-                user: 'root',
-                password: 'DAniel10',
-                database: 'go_fitness',
+                host: MYSQL_HOST,
+                user: MYSQL_USER,
+                password: MYSQL_PASSWORD,
+                database: MYSQL_DATABASE,
                 timezone: 'Z',
             });
 
