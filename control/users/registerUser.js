@@ -15,7 +15,7 @@ const registerUser = async (req, res, next) => {
 
         let { name, email, password, role } = req.body;
 
-        //Si no se manda rol admin se le pone automáticamente el rol usuario
+        //Si no se manda rol se le pone automáticamente el rol usuario
         if (!role) {
             role = 0;
         }
