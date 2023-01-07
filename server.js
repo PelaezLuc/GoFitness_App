@@ -1,9 +1,16 @@
 const express = require('express');
 const listUser = require('./listUser');
-//const testInitDB = require('./db/testInitDB');
+const morgan = require('morgan');
+require('dotenv').config;
 
 // Creamos el servidor
 const app = express();
+
+//Deserializar el body en formato raw
+app.use(express.json());
+
+//Middleware para Morgan
+app.use(morgan('dev'));
 
 /* 
 ###################
@@ -19,7 +26,10 @@ const app = express();
 ########################
 */
 
-//const registerUser = require('./control/users/registerUser');
+//Registro de usuarios
+const registerUser = require('./control/users/registerUser');
+
+//
 
 /* 
 ##########################
@@ -27,7 +37,7 @@ const app = express();
 ##########################
 */
 
-//app.get('/testInitDB', listUser);
+app.post('/register', registerUser);
 app.get('/listUser', listUser);
 
 /* 
