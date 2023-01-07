@@ -29,7 +29,7 @@ app.use(morgan('dev'));
 //Registro de usuarios
 const registerUser = require('./control/users/registerUser');
 
-//
+const loginUser = require('./control/users/loginUser');
 
 /* 
 ##########################
@@ -37,7 +37,12 @@ const registerUser = require('./control/users/registerUser');
 ##########################
 */
 
+//Registro de usuarios
 app.post('/register', registerUser);
+
+//Login de usuarios
+app.post('/login', loginUser);
+
 app.get('/listUser', listUser);
 
 /* 
