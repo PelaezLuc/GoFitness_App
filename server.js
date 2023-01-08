@@ -1,5 +1,4 @@
 const express = require('express');
-const listUser = require('./listUser');
 const morgan = require('morgan');
 require('dotenv').config;
 
@@ -18,7 +17,8 @@ app.use(morgan('dev'));
 ###################
 */
 
-//const isAuth = require('./middleware/isAuth');
+const isAuth = require('./middlewares/isAuth');
+const isAdmin = require('./middlewares/isAdmin');
 
 /* 
 ########################
@@ -28,7 +28,6 @@ app.use(morgan('dev'));
 
 //Registro de usuarios
 const registerUser = require('./control/users/registerUser');
-
 const loginUser = require('./control/users/loginUser');
 
 /* 
@@ -43,7 +42,8 @@ app.post('/register', registerUser);
 //Login de usuarios
 app.post('/login', loginUser);
 
-app.get('/listUser', listUser);
+//Modificar email o username
+app.put('/users/:idUser', isAdmin);
 
 /* 
     ########################################

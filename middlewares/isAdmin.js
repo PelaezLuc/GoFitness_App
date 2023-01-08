@@ -3,7 +3,7 @@ const { generateError } = require('../helpers');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-const isAuth = async (req, res, next) => {
+const isAdmin = async (req, res, next) => {
     let connection;
 
     try {
@@ -12,31 +12,21 @@ const isAuth = async (req, res, next) => {
 
         const { authorization } = req.headers;
 
-        if (!authorization) {
-            throw generateError('Falta la autorizacion', 401);
-        }
-
         let tokenInfo;
 
         try {
             //Desencriptar token
-            console.log(authorization);
             tokenInfo = jwt.verify(authorization, process.env.SECRET);
         } catch (error) {
             throw generateError('Token no válido', 401);
         }
 
-        //Comprobar que el id del usuario del token existe aún
-        const [user] = await connection.query(
-            `SELECT * FROM user WHERE id = ?`,
-            [tokenInfo.id]
-        );
-
-        if (user.length < 1) {
-            throw generateError('Token no válido', 401);
+        //Comprobar que el rol del usuario es 1(admin)
+        if (tokenInfo.role !== 1) {
+            throw generateError('Este usuario no es admin', 401);
         }
 
-        req.userAuth = tokenInfo;
+        req.userAdmin = tokenInfo;
 
         next();
     } catch (error) {
@@ -47,4 +37,4 @@ const isAuth = async (req, res, next) => {
     }
 };
 
-module.exports = isAuth;
+module.exports = isAdmin;
