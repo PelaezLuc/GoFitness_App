@@ -50,6 +50,27 @@ app.put('/users', isAuth, editUser);
 app.put('/users/password', isAuth, editUserPass);
 
 /* 
+########################
+### Control Workouts ###
+########################
+*/
+
+const listWorkout = require('./control/workouts/listWorkout');
+const seeWorkout = require('./control/workouts/seeWorkout');
+
+/* 
+##########################
+### Endpoints Workouts ###
+##########################
+*/
+
+//Listar ejercicios
+app.get('/Workouts', isAuth, listWorkout);
+
+//Ver más de un ejercicio
+app.get('/Workouts/:idWorkout', isAuth, seeWorkout);
+
+/* 
 #####################
 ### Control likes ###
 #####################
@@ -57,6 +78,7 @@ app.put('/users/password', isAuth, editUserPass);
 
 const addLikeWorkout = require('./control/likes/addLikeWorkout');
 const removeLikeWorkout = require('./control/likes/removeLikeWorkout');
+const seeWorkout = require('./control/workouts/seeWorkout');
 
 /* 
 #######################
