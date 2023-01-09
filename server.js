@@ -26,9 +26,10 @@ const isAdmin = require('./middlewares/isAdmin');
 ########################
 */
 
-//Registro de usuarios
 const registerUser = require('./control/users/registerUser');
 const loginUser = require('./control/users/loginUser');
+const editUser = require('./control/users/editUser');
+const editUserPass = require('./control/users/editUserPass');
 
 /* 
 ##########################
@@ -42,8 +43,31 @@ app.post('/register', registerUser);
 //Login de usuarios
 app.post('/login', loginUser);
 
-//Modificar email o username
-app.put('/users/:idUser', isAdmin);
+//Editar email o name
+app.put('/users', isAuth, editUser);
+
+//Editar password
+app.put('/users/password', isAuth, editUserPass);
+
+/* 
+#####################
+### Control likes ###
+#####################
+*/
+
+const addLikeWorkout = require('./control/likes/addLikeWorkout');
+const removeLikeWorkout = require('./control/likes/removeLikeWorkout');
+
+/* 
+#######################
+### Endpoints Likes ###
+#######################
+*/
+
+//Añadir like a un workout
+app.post('/workouts/:idWorkout/like', isAuth, addLikeWorkout);
+//Quitar like a un workout
+app.post('/workouts/:idWorkout/like', isAuth, removeLikeWorkout);
 
 /* 
     ########################################
