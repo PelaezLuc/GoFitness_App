@@ -1,5 +1,5 @@
 const getDB = require('../../db/getDB');
-
+const newWorkoutSchema = require('../schemas/newWorkoutSchema');
 const { generateError } = require('../../helpers');
 
 const newWorkout = async (req, res, next) => {
@@ -8,18 +8,18 @@ const newWorkout = async (req, res, next) => {
     try {
         connection = await getDB();
 
-        // Destructuramos los datos del entrenamiento del cuerpo de la peticion
-        const { name, type, description, muscle_group } = req.body;
-
         // Recuperamos el id del admin
         const idUserAdmin = req.userAuth.role;
 
+        // Validamos los datos que recuperamos en el cuerpo de la petición con el schema de newWorkoutSchema
+        await validateSchema(newWorkoutSchema, req.body);
+
+        // Destructuramos los datos del entrenamiento del cuerpo de la peticion
+        const { name, type, description, muscle_group } = req.body;
+
+       
         if (idUserAdmin != 1) {
             throw generateError('Acceso no autorizado', 401);
-        }
-
-        if (!name || !type || !description || !muscle_group) {
-            throw generateError('Faltan datos obligatorios.', 409);
         }
 
         const [workoutName] = await connection.query(
@@ -33,10 +33,6 @@ const newWorkout = async (req, res, next) => {
                 409
             );
         }
-
-        //*************************************//
-        //*******FALTA CHECK DEL SCHEMA********//
-        //*************************************//
 
         await connection.query(
             `

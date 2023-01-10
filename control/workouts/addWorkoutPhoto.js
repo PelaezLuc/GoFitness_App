@@ -17,9 +17,9 @@ const addWorkoutPhoto = async (req, res, next) => {
             [idWorkout]
         );
 
-        // Si tiene 1 foto nos devuelve un error
+        // Si tiene 1 foto la elimina
         if (workout.photo) {
-            throw generateError('Este producto ya tiene una imagen', 403); // Forbidden
+            await deletePhoto(photoName);
         }
 
         // Comprobamos que nos ha enviado una foto nueva para añadir
@@ -30,7 +30,7 @@ const addWorkoutPhoto = async (req, res, next) => {
             ); // Bad Request
         }
 
-        // Ejecutamos la funcion savePhoto para guardar en el servidor la nueva foto de producto
+        // Ejecutamos la funcion savePhoto para guardar en el servidor la nueva foto del entrenamiento
         // y guardamos en la variable photoName el nombre de la imagen que devuelve la función
         const photoName = await savePhoto(req.files.workoutPhoto);
 
