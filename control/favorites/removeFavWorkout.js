@@ -24,7 +24,7 @@ const removeFavWorkout = async (req, res, next) => {
 
         //Eliminamos en la bd el fav
         await connection.query(
-            `DELETE FROM favorites WHERE id_user = ? AND id_workout = ?`,
+            `DELETE FROM favorite WHERE id_user = ? AND id_workout = ?`,
             [idUserAuth, idWorkout]
         );
 

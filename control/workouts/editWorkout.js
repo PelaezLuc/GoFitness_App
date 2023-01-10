@@ -1,22 +1,11 @@
 const getDB = require('../../db/getDB');
 const { generateError } = require('../../helpers');
-const newWorkoutSchema = require('../schemas/newWorkoutSchema');
 
 const editWorkout = async (req, res, next) => {
     let connection;
 
     try {
         connection = await getDB();
-
-        // Recuperamos el id del admin
-        const idUserAdmin = req.userAuth.role;
-
-        // Comprobamos acceso
-        if (idUserAdmin != 1) {
-            throw generateError('Acceso no autorizado', 401);
-        }
-
-        await validateSchema(newWorkoutSchema, req.body);
 
         // Recuperamos el id del entrenamiento de los path params
         const { idWorkout } = req.params;
@@ -37,15 +26,15 @@ const editWorkout = async (req, res, next) => {
 
         // Si no devuelve ningún dato
         if (workout.length < 1) {
-            throw generateError('¡El producto a modificar no existe!', 404); // Not Found
+            throw generateError('¡El ejercicio a modificar no existe!', 404); // Not Found
         }
 
         // Modificamos los datos del producto
         await connection.query(
-            `UPDATE product SET name = ?, type = ?, description = ?, muscle_group = ? WHERE id = ?`,
+            `UPDATE workout SET name = ?, type = ?, description = ?, muscle_group = ? WHERE id = ?`,
             [
                 name || workout[0].name,
-                price || workout[0].type,
+                type || workout[0].type,
                 description || workout[0].description,
                 muscle_group || workout[0].muscle_group,
                 idWorkout,
@@ -58,9 +47,9 @@ const editWorkout = async (req, res, next) => {
             message: '¡Entrenamiento modificado con éxito!',
             workout: {
                 name: name || workout[0].name,
-                price: price || workout[0].type,
+                type: type || workout[0].type,
                 description: description || workout[0].description,
-                mucle_group: muscle_group || workout[0].muscle_group
+                muscle_group: muscle_group || workout[0].muscle_group,
             },
         });
     } catch (error) {
@@ -71,4 +60,3 @@ const editWorkout = async (req, res, next) => {
 };
 
 module.exports = editWorkout;
-

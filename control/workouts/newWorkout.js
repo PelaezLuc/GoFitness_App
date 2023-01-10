@@ -1,6 +1,6 @@
 const getDB = require('../../db/getDB');
-const newWorkoutSchema = require('../schemas/newWorkoutSchema');
-const { generateError } = require('../../helpers');
+const newWorkoutSchema = require('../../schemas/newWorkoutSchema');
+const { generateError, validateSchema } = require('../../helpers');
 
 const newWorkout = async (req, res, next) => {
     let connection;
@@ -17,7 +17,6 @@ const newWorkout = async (req, res, next) => {
         // Destructuramos los datos del entrenamiento del cuerpo de la peticion
         const { name, type, description, muscle_group } = req.body;
 
-       
         if (idUserAdmin != 1) {
             throw generateError('Acceso no autorizado', 401);
         }

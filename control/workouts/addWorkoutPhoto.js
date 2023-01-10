@@ -1,6 +1,6 @@
 const getDB = require('../../db/getDB');
 
-const { generateError, savePhoto } = require('../../helpers');
+const { generateError, savePhoto, deletePhoto } = require('../../helpers');
 
 const addWorkoutPhoto = async (req, res, next) => {
     let connection;
@@ -19,7 +19,7 @@ const addWorkoutPhoto = async (req, res, next) => {
 
         // Si tiene 1 foto la elimina
         if (workout.photo) {
-            await deletePhoto(photoName);
+            await deletePhoto(workout.photo);
         }
 
         // Comprobamos que nos ha enviado una foto nueva para añadir

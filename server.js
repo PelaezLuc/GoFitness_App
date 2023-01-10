@@ -90,8 +90,7 @@ app.get('/workouts', isAuth, listWorkout);
 app.get('/workouts/:idWorkout', isAuth, seeWorkout);
 
 //Editar un ejercicio
-
-app.set('/workouts/:idWorkout', isAdmin, editWorkout);
+app.put('/editworkouts/:idWorkout', isAuth, isAdmin, editWorkout);
 
 /* 
 #####################

@@ -19,7 +19,6 @@ async function deletePhoto(photoName) {
         let photoPath;
 
         photoPath = path.join(workoutDir, photoName);
-
         // Una vez tenemos la ruta absoluta hacia la imagen creada, la eliminamos
         await unlink(photoPath);
     } catch (error) {
@@ -48,8 +47,20 @@ async function savePhoto(image) {
     }
 }
 
+async function validateSchema(schema, data) {
+    try {
+        // Intenta validar los datos con el schema que pasemos por argumento
+        await schema.validateAsync(data);
+    } catch (error) {
+        // Si se captura algun error que surja en el schema, se asigna el codigo 400 de error
+        error.httpStatus = 400; // Bad Request
+        throw error;
+    }
+}
+
 module.exports = {
     generateError,
     deletePhoto,
     savePhoto,
+    validateSchema,
 };
