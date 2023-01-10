@@ -1,5 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
+const fileUpload = require('express-fileupload');
+
 require('dotenv').config;
 
 // Creamos el servidor
@@ -10,6 +12,10 @@ app.use(express.json());
 
 //Middleware para Morgan
 app.use(morgan('dev'));
+
+app.use(express.static('static'));
+
+app.use(fileUpload());
 
 /* 
 ###################
@@ -50,13 +56,46 @@ app.put('/users', isAuth, editUser);
 app.put('/users/password', isAuth, editUserPass);
 
 /* 
+########################
+### Control Workouts ###
+########################
+*/
+
+const listWorkout = require('./control/workouts/listWorkout');
+const seeWorkout = require('./control/workouts/seeWorkout');
+const newWorkout = require('./control/workouts/newWorkout');
+const addWorkoutPhoto = require('./control/workouts/addWorkoutPhoto');
+const deleteWorkout = require('./control/workouts/deleteWorkout');
+
+/* 
+##########################
+### Endpoints Workouts ###
+##########################
+*/
+
+//Añadir ejercicios
+app.post('/addWorkout', isAuth, isAdmin, newWorkout);
+
+//Añadir foto a ejercicio
+app.post('/addWorkoutPhoto/:idWorkout', isAuth, isAdmin, addWorkoutPhoto);
+
+//Eliminar ejercicio
+app.delete('/deleteWorkout', isAuth, isAdmin, deleteWorkout);
+
+//Listar ejercicios
+app.get('/workouts', isAuth, listWorkout);
+
+//Ver un ejercicio
+app.get('/workouts/:idWorkout', isAuth, seeWorkout);
+
+/* 
 #####################
 ### Control likes ###
 #####################
 */
 
-const addLikeWorkout = require('./control/likes/addLikeWorkout');
 const removeLikeWorkout = require('./control/likes/removeLikeWorkout');
+const addLikeWorkout = require('./control/likes/addLikeWorkout');
 
 /* 
 #######################
@@ -65,9 +104,9 @@ const removeLikeWorkout = require('./control/likes/removeLikeWorkout');
 */
 
 //Añadir like a un workout
-app.post('/workouts/:idWorkout/like', isAuth, addLikeWorkout);
+app.put('/workouts/:idWorkout/like', isAuth, addLikeWorkout);
 //Quitar like a un workout
-app.post('/workouts/:idWorkout/like', isAuth, removeLikeWorkout);
+app.delete('/workouts/:idWorkout/dislike', isAuth, removeLikeWorkout);
 
 /* 
     ########################################

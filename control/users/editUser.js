@@ -13,9 +13,9 @@ const editUser = async (req, res, next) => {
         const { newEmail, newUsername } = req.body;
 
         //Comprobamos si se han rellenado los campos de la req
-        if (!newEmail || !newUsername) {
+        if (!newEmail && !newUsername) {
             throw generateError(
-                'No se ha indicado alguno de los valores a modificar',
+                'No se han indicado los valores a modificar',
                 400
             );
         }
