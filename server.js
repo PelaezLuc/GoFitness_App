@@ -109,6 +109,29 @@ app.put('/workouts/:idWorkout/like', isAuth, addLikeWorkout);
 app.delete('/workouts/:idWorkout/dislike', isAuth, removeLikeWorkout);
 
 /* 
+#########################
+### Control Favoritos ###
+#########################
+*/
+
+const addFavWorkout = require('./control/favorites/addFavWorkout');
+const removeFavWorkout = require('./control/favorites/removeFavWorkout');
+const listFavWorkout = require('./control/favorites/listFavWorkout');
+
+/* 
+###########################
+### Endpoints Favoritos ###
+###########################
+*/
+
+//Añadir a favoritos un workout
+app.put('/workouts/:idWorkout/fav', isAuth, addFavWorkout);
+//Eliminar de favoritos un workout
+app.delete('/workouts/:idWorkout/quitfav', isAuth, removeFavWorkout);
+//Listar favoritos
+app.get('/favworkouts', isAuth, listFavWorkout);
+
+/* 
     ########################################
     ### Middlewares de Error y Not Found ###
     ########################################
