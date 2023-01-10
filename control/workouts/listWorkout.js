@@ -10,55 +10,40 @@ const listWorkout = async (req, res, next) => {
         //Recogemos datos de la petición
         const { name, type, muscle } = req.query;
 
-        let workouts;
+        let mySQLQuery = `SELECT w.name, w.type, w.muscle_group, COUNT(l.id_likes) likes FROM workout w LEFT JOIN likes l ON w.id = l.id_workout`;
+
+        const values = [];
+
+        let clause = `WHERE`;
 
         //Si se manda el filtro name
         if (name) {
-            [workouts] = await connection.query(
-                `SELECT name, type, muscle_group FROM workout
-                WHERE name LIKE ?
-                ORDER BY name DESC`[`%${name}%`]
-            );
+            mySQLQuery += ` ${clause} w.name LIKE ?`;
+            values.push(`%${name}%`);
+            clause = `AND`;
         }
 
         //Si se filtra por tipo
         if (type) {
-            [workouts] = await connection.query(
-                `SELECT name, type, muscle_group FROM workout
-                WHERE type LIKE ?
-                ORDER BY type DESC`[`%${type}%`]
-            );
+            mySQLQuery += ` ${clause} w.type LIKE ?`;
+            values.push(`%${type}%`);
+            clause = `AND`;
         }
 
         //Si se filtra por grupo muscular
         if (muscle) {
-            [workouts] = await connection.query(
-                `SELECT name, type, muscle_group FROM workout
-                WHERE muscle_group LIKE ?
-                ORDER BY muscle_group DESC`[`%${muscle}%`]
-            );
+            mySQLQuery += ` ${clause} w.muscle_group LIKE ?`;
+            values.push(`%${muscle}%`);
         }
 
-        //Si no se filtra por nada
-        if (!name && !muscle && !type) {
-            [workouts] = await connection.query(
-                `SELECT name, type, muscle_group FROM workout
-                ORDER BY name DESC`
-            );
-        }
+        mySQLQuery += ` GROUP BY w.id ORDER BY likes DESC`;
 
-        const data = [];
-
-        for (let i = 0; i < workouts.length; i++) {
-            data.push({
-                ...workouts[i],
-            });
-        }
+        const [workouts] = await connection.query(mySQLQuery, values);
 
         res.send({
             status: 'ok',
             message: 'Lista de ejercicios',
-            workouts: data,
+            workouts,
         });
     } catch (error) {
         next(error);

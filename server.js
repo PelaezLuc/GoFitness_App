@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const fileUpload = require('express-fileupload');
 
 require('dotenv').config;
 
@@ -11,6 +12,10 @@ app.use(express.json());
 
 //Middleware para Morgan
 app.use(morgan('dev'));
+
+app.use(express.static('static'));
+
+app.use(fileUpload());
 
 /* 
 ###################
@@ -69,19 +74,19 @@ const deleteWorkout = require('./control/workouts/deleteWorkout');
 */
 
 //Añadir ejercicios
-app.get('/AddWorkout', isAdmin, newWorkout);
+app.post('/addWorkout', isAuth, isAdmin, newWorkout);
 
 //Añadir foto a ejercicio
-app.get('/AddWorkoutPhoto', isAdmin, addWorkoutPhoto);
+app.post('/addWorkoutPhoto/:idWorkout', isAuth, isAdmin, addWorkoutPhoto);
 
 //Eliminar ejercicio
-app.get('/DeleteWorkout', isAdmin, deleteWorkout);
+app.delete('/deleteWorkout', isAuth, isAdmin, deleteWorkout);
 
 //Listar ejercicios
-app.get('/Workouts', isAuth, listWorkout);
+app.get('/workouts', isAuth, listWorkout);
 
 //Ver un ejercicio
-app.get('/Workouts/:idWorkout', isAuth, seeWorkout);
+app.get('/workouts/:idWorkout', isAuth, seeWorkout);
 
 /* 
 #####################
@@ -99,9 +104,9 @@ const addLikeWorkout = require('./control/likes/addLikeWorkout');
 */
 
 //Añadir like a un workout
-app.post('/workouts/:idWorkout/like', isAuth, addLikeWorkout);
+app.put('/workouts/:idWorkout/like', isAuth, addLikeWorkout);
 //Quitar like a un workout
-app.post('/workouts/:idWorkout/like', isAuth, removeLikeWorkout);
+app.delete('/workouts/:idWorkout/dislike', isAuth, removeLikeWorkout);
 
 /* 
     ########################################

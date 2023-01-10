@@ -8,7 +8,7 @@ const deleteLikeWorkout = async (req, res, next) => {
         //Conectamos con la bbdd
         connection = await getDB();
 
-        const idUserAuth = req.UserAuth.id;
+        const idUserAuth = req.userAuth.id;
 
         const { idWorkout } = req.params;
 

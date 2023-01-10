@@ -1,10 +1,9 @@
-const {unlink} = require('fs/promises');
+const { unlink } = require('fs/promises');
 const path = require('path');
 const sharp = require('sharp');
 const uuid = require('uuid');
 
 const workoutDir = path.join(__dirname, 'static', 'workout');
-
 
 //Función que genera un error
 function generateError(message, code) {
@@ -18,7 +17,7 @@ async function deletePhoto(photoName) {
     try {
         // Variable que va a guardar la ruta absoluta a la imagen que hay que borrar
         let photoPath;
-        
+
         photoPath = path.join(workoutDir, photoName);
 
         // Una vez tenemos la ruta absoluta hacia la imagen creada, la eliminamos
@@ -26,21 +25,18 @@ async function deletePhoto(photoName) {
     } catch (error) {
         throw new Error('¡Error al procesar la imagen del servidor!');
     }
-};
+}
 
 // Funcion que guarda una nueva foto en el servidor y devuelve un nombre único para la imagen
-async function savePhoto(image, type) {
+async function savePhoto(image) {
     try {
         // Convertimos la imagen recibida en un objeto sharp
         const sharpImage = sharp(image.data);
 
-        // Variable que guarda la ruta absoluta al directorio de avatar o producto, dependiendo del tipo
-        let photoPath;
-
         // Generamos un nombre único para la imagen
         const imageName = uuid.v4() + '.jpg';
 
-        photoPath = path.join(workoutDir, photoName);
+        const photoPath = path.join(workoutDir, imageName);
 
         // Guardamos la imagen
         sharpImage.toFile(photoPath);
@@ -50,7 +46,7 @@ async function savePhoto(image, type) {
     } catch (error) {
         throw new Error('¡Ha ocurrido un error al procesar la imagen!');
     }
-};
+}
 
 module.exports = {
     generateError,
