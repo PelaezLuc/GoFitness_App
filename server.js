@@ -66,6 +66,7 @@ const seeWorkout = require('./control/workouts/seeWorkout');
 const newWorkout = require('./control/workouts/newWorkout');
 const addWorkoutPhoto = require('./control/workouts/addWorkoutPhoto');
 const deleteWorkout = require('./control/workouts/deleteWorkout');
+const editWorkout = require('./control/workouts/editWorkout');
 
 /* 
 ##########################
@@ -87,6 +88,10 @@ app.get('/workouts', isAuth, listWorkout);
 
 //Ver un ejercicio
 app.get('/workouts/:idWorkout', isAuth, seeWorkout);
+
+//Editar un ejercicio
+
+app.set('/workouts/:idWorkout', isAdmin, editWorkout);
 
 /* 
 #####################
