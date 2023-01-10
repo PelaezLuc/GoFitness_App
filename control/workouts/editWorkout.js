@@ -29,7 +29,7 @@ const editWorkout = async (req, res, next) => {
             throw generateError('¡El ejercicio a modificar no existe!', 404); // Not Found
         }
 
-        // Modificamos los datos del producto
+        // Modificamos los datos del entrenamiento
         await connection.query(
             `UPDATE workout SET name = ?, type = ?, description = ?, muscle_group = ? WHERE id = ?`,
             [

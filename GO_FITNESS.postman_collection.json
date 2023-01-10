@@ -305,7 +305,23 @@
 					"name": "Eliminar Ejercicio",
 					"request": {
 						"method": "DELETE",
-						"header": []
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/deleteWorkout/1",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"deleteWorkout",
+								"1"
+							]
+						}
 					},
 					"response": []
 				}

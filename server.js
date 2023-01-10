@@ -81,7 +81,7 @@ app.post('/addWorkout', isAuth, isAdmin, newWorkout);
 app.post('/addWorkoutPhoto/:idWorkout', isAuth, isAdmin, addWorkoutPhoto);
 
 //Eliminar ejercicio
-app.delete('/deleteWorkout', isAuth, isAdmin, deleteWorkout);
+app.delete('/deleteWorkout/:idWorkout', isAuth, isAdmin, deleteWorkout);
 
 //Listar ejercicios
 app.get('/workouts', isAuth, listWorkout);
