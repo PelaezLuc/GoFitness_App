@@ -87,5 +87,5 @@ async function main() {
     }
 }
 
-// Ejecutamos la funcion main
+//Exportamos la función main
 module.exports = main;

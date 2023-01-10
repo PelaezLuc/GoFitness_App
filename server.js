@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+
 require('dotenv').config;
 
 // Creamos el servidor
@@ -57,6 +58,9 @@ app.put('/users/password', isAuth, editUserPass);
 
 const listWorkout = require('./control/workouts/listWorkout');
 const seeWorkout = require('./control/workouts/seeWorkout');
+const newWorkout = require('./control/workouts/newWorkout');
+const addWorkoutPhoto = require('./control/workouts/addWorkoutPhoto');
+const deleteWorkout = require('./control/workouts/deleteWorkout');
 
 /* 
 ##########################
@@ -64,10 +68,19 @@ const seeWorkout = require('./control/workouts/seeWorkout');
 ##########################
 */
 
+//Añadir ejercicios
+app.get('/AddWorkout', isAdmin, newWorkout);
+
+//Añadir foto a ejercicio
+app.get('/AddWorkoutPhoto', isAdmin, addWorkoutPhoto);
+
+//Eliminar ejercicio
+app.get('/DeleteWorkout', isAdmin, deleteWorkout);
+
 //Listar ejercicios
 app.get('/Workouts', isAuth, listWorkout);
 
-//Ver más de un ejercicio
+//Ver un ejercicio
 app.get('/Workouts/:idWorkout', isAuth, seeWorkout);
 
 /* 
@@ -76,9 +89,8 @@ app.get('/Workouts/:idWorkout', isAuth, seeWorkout);
 #####################
 */
 
-const addLikeWorkout = require('./control/likes/addLikeWorkout');
 const removeLikeWorkout = require('./control/likes/removeLikeWorkout');
-const seeWorkout = require('./control/workouts/seeWorkout');
+const addLikeWorkout = require('./control/likes/addLikeWorkout');
 
 /* 
 #######################

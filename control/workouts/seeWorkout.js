@@ -18,7 +18,7 @@ const seeWorkout = async (req, res, next) => {
         res.send({
             status: 'OK',
             message: 'Viendo el ejercicio...',
-            seeWorkout: workout,
+            workouts: workout,
         });
     } catch (error) {
         next(error);
