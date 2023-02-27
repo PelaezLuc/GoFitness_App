@@ -11,14 +11,14 @@ const seeWorkout = async (req, res, next) => {
         const { idWorkout } = req.params;
 
         const [workout] = await connection.query(
-            `SELECT * FROM workout WHERE id = ?`,
+            `SELECT name, type, description, muscle_group, photo FROM workout WHERE id = ?`,
             [idWorkout]
         );
 
         res.send({
             status: 'OK',
             message: 'Viendo el ejercicio...',
-            workouts: workout,
+            workout: workout,
         });
     } catch (error) {
         next(error);

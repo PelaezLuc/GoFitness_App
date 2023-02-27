@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const fileUpload = require('express-fileupload');
+const cors = require("cors");
 
 require('dotenv').config;
 
@@ -16,6 +17,16 @@ app.use(morgan('dev'));
 app.use(express.static('static'));
 
 app.use(fileUpload());
+
+app.use(cors({
+    origin: 'http://localhost:3001'
+}));
+
+// app.use(cors({
+//     origin: '*',
+//     methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
+// }));
+
 
 /* 
 ###################
@@ -84,7 +95,7 @@ app.post('/addWorkoutPhoto/:idWorkout', isAuth, isAdmin, addWorkoutPhoto);
 app.delete('/deleteWorkout/:idWorkout', isAuth, isAdmin, deleteWorkout);
 
 //Listar ejercicios
-app.get('/workouts', isAuth, listWorkout);
+app.get('/workout', isAuth, listWorkout);
 
 //Ver un ejercicio
 app.get('/workouts/:idWorkout', isAuth, seeWorkout);
@@ -134,6 +145,8 @@ app.put('/workouts/:idWorkout/fav', isAuth, addFavWorkout);
 app.delete('/workouts/:idWorkout/quitfav', isAuth, removeFavWorkout);
 //Listar favoritos
 app.get('/favworkouts', isAuth, listFavWorkout);
+
+
 
 /* 
     ########################################

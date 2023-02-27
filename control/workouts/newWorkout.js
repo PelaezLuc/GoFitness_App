@@ -17,6 +17,8 @@ const newWorkout = async (req, res, next) => {
         // Destructuramos los datos del entrenamiento del cuerpo de la peticion
         const { name, type, description, muscle_group } = req.body;
 
+        console.log(description);
+
         if (idUserAdmin != 1) {
             throw generateError('Acceso no autorizado', 401);
         }

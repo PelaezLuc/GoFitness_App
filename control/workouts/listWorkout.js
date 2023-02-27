@@ -10,7 +10,7 @@ const listWorkout = async (req, res, next) => {
         //Recogemos datos de la petición
         const { name, type, muscle } = req.query;
 
-        let mySQLQuery = `SELECT w.name, w.type, w.muscle_group, COUNT(l.id_likes) likes FROM workout w LEFT JOIN likes l ON w.id = l.id_workout`;
+        let mySQLQuery = `SELECT w.id, w.name, w.type, w.description, w.muscle_group, w.photo, COUNT(l.id_likes) likes FROM workout w LEFT JOIN likes l ON w.id = l.id_workout`;
 
         const values = [];
 
@@ -39,6 +39,7 @@ const listWorkout = async (req, res, next) => {
         mySQLQuery += ` GROUP BY w.id ORDER BY likes DESC`;
 
         const [workouts] = await connection.query(mySQLQuery, values);
+        
 
         res.send({
             status: 'ok',
