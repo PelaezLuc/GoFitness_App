@@ -4,10 +4,10 @@ require('dotenv').config();
 //recogemos variables del archivo .env
 const { MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE } = process.env;
 
-const getDB = async () => {
-    // Declaramos un pool de conexiones
-    let pool;
+// Declaramos un pool de conexiones
+let pool;
 
+const getDB = async () => {
     try {
         if (!pool) {
             // Creamos un grupo de conexiones
@@ -19,10 +19,10 @@ const getDB = async () => {
                 database: MYSQL_DATABASE,
                 timezone: 'Z',
             });
-
-            // Ejecutamos el método getConnection para devolver una conexion libre
-            return await pool.getConnection();
         }
+
+        // Ejecutamos el método getConnection para devolver una conexion libre
+        return await pool.getConnection();
     } catch (error) {
         console.error(error.message);
     }

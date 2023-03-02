@@ -31,9 +31,13 @@ const deleteLikeWorkout = async (req, res, next) => {
             [idUserAuth, idWorkout]
         );
 
+        const [[count]] = await connection.query('SELECT COUNT(id_likes) as likes FROM likes WHERE id_workout=?', [idWorkout]);
+
+
         res.send({
             status: 'OK',
             message: 'Like del ejercicio eliminado con éxito!',
+            data: count.likes,
         });
     } catch (error) {
         next(error);

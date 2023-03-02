@@ -25,6 +25,8 @@ const addLikeWorkout = async (req, res, next) => {
             );
         }
 
+        console.log(like);
+
         //Añadimos en la bd el like
         await connection.query(
             `INSERT INTO likes (id_user, id_workout)
@@ -32,9 +34,14 @@ const addLikeWorkout = async (req, res, next) => {
             [idUserAuth, idWorkout]
         );
 
+        const [[count]] = await connection.query('SELECT COUNT(id_likes) as likes FROM likes WHERE id_workout=?', [idWorkout]);
+
+
+
         res.send({
             status: 'OK',
             message: 'Le has dado like al ejercicio!',
+            data: count.likes,
         });
     } catch (error) {
         next(error);

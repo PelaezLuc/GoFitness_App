@@ -19,7 +19,7 @@ app.use(express.static('static'));
 app.use(fileUpload());
 
 app.use(cors({
-    origin: 'http://localhost:3001'
+    origin: 'http://localhost:3000'
 }));
 
 // app.use(cors({
@@ -109,6 +109,7 @@ app.put('/editworkouts/:idWorkout', isAuth, isAdmin, editWorkout);
 #####################
 */
 
+const getLikes = require('./control/likes/getLikes');
 const removeLikeWorkout = require('./control/likes/removeLikeWorkout');
 const addLikeWorkout = require('./control/likes/addLikeWorkout');
 
@@ -118,6 +119,8 @@ const addLikeWorkout = require('./control/likes/addLikeWorkout');
 #######################
 */
 
+//Obtener likes
+app.get('/likes', isAuth, getLikes);
 //Añadir like a un workout
 app.put('/workouts/:idWorkout/like', isAuth, addLikeWorkout);
 //Quitar like a un workout
