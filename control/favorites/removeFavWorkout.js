@@ -28,9 +28,15 @@ const removeFavWorkout = async (req, res, next) => {
             [idUserAuth, idWorkout]
         );
 
+        const [[count]] = await connection.query(
+            'SELECT COUNT(id_favorite) as favorite FROM favorite WHERE id_workout=?',
+            [idWorkout]
+        );
+
         res.send({
             status: 'OK',
             message: 'Ejercicio eliminado de favoritos con éxito!',
+            data: count.favorite,
         });
     } catch (error) {
         next(error);

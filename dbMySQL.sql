@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS likes(
 	id_user int not null,
 	foreign key (id_user) references user(id),
 	id_workout int not null,
-	foreign key (id_workout) references user(id)
+	foreign key (id_workout) references workout(id)
 );
 
 CREATE TABLE IF NOT EXISTS favorite(
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS favorite(
 	id_user int not null,
 	foreign key (id_user) references user(id),
 	id_workout int not null,
-	foreign key (id_workout) references user(id)
+	foreign key (id_workout) references workout(id)
 );
 
 

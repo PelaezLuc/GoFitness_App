@@ -12,6 +12,8 @@ const addLikeWorkout = async (req, res, next) => {
 
         const { idWorkout } = req.params;
 
+        console.log(idWorkout + 'ezto');
+
         //Comprobamos si el usuario le ha dado like ya a ese ejercicio
         const [like] = await connection.query(
             `SELECT * FROM likes WHERE id_user = ? AND id_workout = ?`,
@@ -25,8 +27,6 @@ const addLikeWorkout = async (req, res, next) => {
             );
         }
 
-        console.log(like);
-
         //Añadimos en la bd el like
         await connection.query(
             `INSERT INTO likes (id_user, id_workout)
@@ -34,9 +34,10 @@ const addLikeWorkout = async (req, res, next) => {
             [idUserAuth, idWorkout]
         );
 
-        const [[count]] = await connection.query('SELECT COUNT(id_likes) as likes FROM likes WHERE id_workout=?', [idWorkout]);
-
-
+        const [[count]] = await connection.query(
+            'SELECT COUNT(id_likes) as likes FROM likes WHERE id_workout=?',
+            [idWorkout]
+        );
 
         res.send({
             status: 'OK',

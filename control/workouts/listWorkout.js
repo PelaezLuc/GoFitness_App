@@ -12,6 +12,8 @@ const listWorkout = async (req, res, next) => {
         //Recogemos datos de la petición
         const { name, type, muscle } = req.query;
 
+        const idUser = [req.userAuth.id];
+
         let mySQLQuery = `
             SELECT 
                 w.id, 
@@ -21,12 +23,15 @@ const listWorkout = async (req, res, next) => {
                 w.muscle_group, 
                 w.photo, 
                 COUNT(l.id_likes) likes,
-                (SELECT COUNT(likes.id_likes) from likes WHERE likes.id_workout=w.id AND likes.id_user=?) AS userLike
+                COUNT(f.id_favorite) favs,
+                (SELECT COUNT(likes.id_likes) from likes WHERE likes.id_workout=w.id AND likes.id_user=${idUser}) AS userLike,
+                (SELECT COUNT(favorite.id_favorite) from favorite WHERE favorite.id_workout=w.id AND favorite.id_user=${idUser}) AS userFav
             FROM workout AS w 
             LEFT JOIN likes AS l ON w.id = l.id_workout
+            LEFT JOIN favorite AS f ON w.id = f.id_workout
             `;
 
-        const values = [req.userAuth.id];
+        const values = [];
 
         let clause = `WHERE`;
 

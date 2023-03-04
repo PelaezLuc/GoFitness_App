@@ -25,6 +25,8 @@ const addFavWorkout = async (req, res, next) => {
             );
         }
 
+        console.log(idUserAuth + idWorkout);
+
         //Añadimos en la bd el fav
         await connection.query(
             `INSERT INTO favorite (id_user, id_workout)
@@ -32,9 +34,15 @@ const addFavWorkout = async (req, res, next) => {
             [idUserAuth, idWorkout]
         );
 
+        const [[count]] = await connection.query(
+            'SELECT COUNT(id_favorite) as favorite FROM favorite WHERE id_workout=?',
+            [idWorkout]
+        );
+
         res.send({
             status: 'OK',
             message: 'Has guardado en favoritos este ejercicio!',
+            data: count.favorite,
         });
     } catch (error) {
         next(error);

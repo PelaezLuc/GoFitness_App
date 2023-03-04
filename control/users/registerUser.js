@@ -13,12 +13,7 @@ const registerUser = async (req, res, next) => {
         //Conectamos con la bbdd
         connection = await getDB();
 
-        let { name, email, password, role } = req.body;
-
-        //Si no se manda rol se le pone automáticamente el rol usuario
-        if (!role) {
-            role = 0;
-        }
+        let { name, email, password } = req.body;
 
         //Comprobación de si están rellenados todos los campos
         if (!name || !email || !password) {
@@ -61,9 +56,9 @@ const registerUser = async (req, res, next) => {
 
         //Guardamos datos del usuario en la bd
         await connection.query(
-            `INSERT INTO user (name, email, password, role)
-            VALUES (?, ?, ?, ?)`,
-            [name, email, hashedPassword, role]
+            `INSERT INTO user (name, email, password)
+            VALUES (?, ?, ?)`,
+            [name, email, hashedPassword]
         );
 
         res.send({
